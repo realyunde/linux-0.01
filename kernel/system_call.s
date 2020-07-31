@@ -49,15 +49,15 @@ nr_system_calls = 67
 
 .globl _system_call,_sys_fork,_timer_interrupt,_hd_interrupt,_sys_execve
 
-.align 2
+.align 4
 bad_sys_call:
 	movl $-1,%eax
 	iret
-.align 2
+.align 4
 reschedule:
 	pushl $ret_from_sys_call
 	jmp _schedule
-.align 2
+.align 4
 _system_call:
 	cmpl $nr_system_calls-1,%eax
 	ja bad_sys_call
@@ -141,7 +141,7 @@ default_signal:
 	addl $4,%esp
 	jmp 3b
 
-.align 2
+.align 4
 _timer_interrupt:
 	push %ds		# save ds,es and put kernel data space
 	push %es		# into them. %fs is used by _system_call
@@ -165,7 +165,7 @@ _timer_interrupt:
 	addl $4,%esp		# task switching to accounting ...
 	jmp ret_from_sys_call
 
-.align 2
+.align 4
 _sys_execve:
 	lea EIP(%esp),%eax
 	pushl %eax
@@ -173,7 +173,7 @@ _sys_execve:
 	addl $4,%esp
 	ret
 
-.align 2
+.align 4
 _sys_fork:
 	call _find_empty_process
 	testl %eax,%eax
