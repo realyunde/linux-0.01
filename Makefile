@@ -8,8 +8,8 @@ AS86	=as -0 -a
 CC86	=cc -0
 LD86	=ld -0
 
-AS	=gas
-LD	=gld
+AS	=as
+LD	=ld
 LDFLAGS	=-s -x -M
 CC	=gcc
 CFLAGS	=-Wall -O -fstrength-reduce -fomit-frame-pointer -fcombine-regs
