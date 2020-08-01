@@ -7,11 +7,9 @@ CFLAGS	=-Wall -O -fstrength-reduce -fomit-frame-pointer \
 CPP	=gcc -E -nostdinc -I../include
 
 .c.s:
-	$(CC) $(CFLAGS) \
-	-S -o $*.s $<
+	$(CC) $(CFLAGS) -S -o $*.s $<
 .c.o:
-	$(CC) $(CFLAGS) \
-	-c -o $*.o $<
+	$(CC) $(CFLAGS) -c -o $*.o $<
 .s.o:
 	$(AS) -o $*.o $<
 

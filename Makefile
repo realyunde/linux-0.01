@@ -19,13 +19,11 @@ ARCHIVES=kernel/kernel.o mm/mm.o fs/fs.o
 LIBS	=lib/lib.a
 
 .c.s:
-	$(CC) $(CFLAGS) \
-	-nostdinc -Iinclude -S -o $*.s $<
+	$(CC) $(CFLAGS) -nostdinc -Iinclude -S -o $*.s $<
 .s.o:
 	$(AS) -c -o $*.o $<
 .c.o:
-	$(CC) $(CFLAGS) \
-	-nostdinc -Iinclude -c -o $*.o $<
+	$(CC) $(CFLAGS) -nostdinc -Iinclude -c -o $*.o $<
 
 all:	Image
 
@@ -35,13 +33,11 @@ Image: boot/boot tools/system tools/build
 	sync
 
 tools/build: tools/build.c
-	$(CC) $(CFLAGS) \
-	-o tools/build tools/build.c
+	$(CC) $(CFLAGS) -o tools/build tools/build.c
 
 boot/head.o: boot/head.s
 
-tools/system:	boot/head.o init/main.o \
-		$(ARCHIVES) $(LIBS)
+tools/system:	boot/head.o init/main.o $(ARCHIVES) $(LIBS)
 	$(LD) $(LDFLAGS) boot/head.o init/main.o \
 	$(ARCHIVES) \
 	$(LIBS) \

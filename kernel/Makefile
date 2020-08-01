@@ -16,13 +16,11 @@ CFLAGS	=-Wall -O -fstrength-reduce -fomit-frame-pointer \
 CPP	=gcc -E -nostdinc -I../include
 
 .c.s:
-	$(CC) $(CFLAGS) \
-	-S -o $*.s $<
+	$(CC) $(CFLAGS) -S -o $*.s $<
 .s.o:
 	$(AS) -c -o $*.o $<
 .c.o:
-	$(CC) $(CFLAGS) \
-	-c -o $*.o $<
+	$(CC) $(CFLAGS) -c -o $*.o $<
 
 OBJS  = sched.o system_call.o traps.o asm.o fork.o \
 	panic.o printk.o vsprintf.o tty_io.o console.o \
