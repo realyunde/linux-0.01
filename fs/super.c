@@ -13,6 +13,17 @@ __res; })
 
 struct super_block super_block[NR_SUPER];
 
+/* from include/linux/fs.h */
+struct super_block * get_super(int dev)
+{
+    struct super_block * s;
+
+    for(s = 0+super_block;s < NR_SUPER+super_block; s++)
+        if (s->s_dev == dev)
+            return s;
+    return NULL;
+}
+
 struct super_block * do_mount(int dev)
 {
 	struct super_block * p;
