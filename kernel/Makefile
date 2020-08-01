@@ -6,19 +6,12 @@
 # unless it's something special (ie not a .c file).
 #
 
-AR	=ar
-AS	=as
-LD	=ld
-LDFLAGS	=-s -x
-CC	=gcc
-CFLAGS	=-Wall -O -fstrength-reduce -fomit-frame-pointer \
-	-finline-functions -nostdinc -I../include -std=gnu89
-CPP	=gcc -E -nostdinc -I../include
+CFLAGS += -finline-functions -nostdinc -I../include
 
 .c.s:
 	$(CC) $(CFLAGS) -S -o $*.s $<
 .s.o:
-	$(AS) -c -o $*.o $<
+	$(CC) $(CFLAGS) -c -o $*.o $<
 .c.o:
 	$(CC) $(CFLAGS) -c -o $*.o $<
 
@@ -29,19 +22,11 @@ OBJS  = sched.o system_call.o traps.o asm.o fork.o \
 
 kernel.o: $(OBJS)
 	$(LD) -r -o kernel.o $(OBJS)
-	sync
 
 clean:
 	rm -f core *.o *.a tmp_make
 	for i in *.c;do rm -f `basename $$i .c`.s;done
 
-dep:
-	sed '/\#\#\# Dependencies/q' < Makefile > tmp_make
-	(for i in *.c;do echo -n `echo $$i | sed 's,\.c,\.s,'`" "; \
-		$(CPP) -M $$i;done) >> tmp_make
-	cp tmp_make Makefile
-
-### Dependencies:
 console.s console.o : console.c ../include/linux/sched.h ../include/linux/head.h \
   ../include/linux/fs.h ../include/sys/types.h ../include/linux/mm.h \
   ../include/linux/tty.h ../include/termios.h ../include/asm/io.h \

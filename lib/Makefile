@@ -6,14 +6,7 @@
 # unless it's something special (ie not a .c file).
 #
 
-AR	=ar
-AS	=as
-LD	=ld
-LDFLAGS	=-s -x
-CC	=gcc
-CFLAGS	=-Wall -O -fstrength-reduce -fomit-frame-pointer \
-	-finline-functions -nostdinc -I../include -std=gnu89
-CPP	=gcc -E -nostdinc -I../include
+CFLAGS += -finline-functions -nostdinc -I../include
 
 .c.s:
 	$(CC) $(CFLAGS) -S -o $*.s $<
@@ -27,16 +20,7 @@ OBJS  = ctype.o _exit.o open.o close.o errno.o write.o dup.o setsid.o \
 
 lib.a: $(OBJS)
 	$(AR) rcs lib.a $(OBJS)
-	sync
 
 clean:
-	rm -f core *.o *.a tmp_make
-	for i in *.c;do rm -f `basename $$i .c`.s;done
+	rm -f *.o *.a
 
-dep:
-	sed '/\#\#\# Dependencies/q' < Makefile > tmp_make
-	(for i in *.c;do echo -n `echo $$i | sed 's,\.c,\.s,'`" "; \
-		$(CPP) -M $$i;done) >> tmp_make
-	cp tmp_make Makefile
-
-### Dependencies:

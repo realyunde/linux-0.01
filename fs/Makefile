@@ -1,10 +1,4 @@
-AR	=ar
-AS	=as
-CC	=gcc
-LD	=ld
-CFLAGS	=-Wall -O -fstrength-reduce -fomit-frame-pointer \
-	-nostdinc -I../include -std=gnu89
-CPP	=gcc -E -nostdinc -I../include
+CFLAGS += -nostdinc -I../include
 
 .c.s:
 	$(CC) $(CFLAGS) -S -o $*.s $<
@@ -21,15 +15,8 @@ fs.o: $(OBJS)
 	$(LD) -r -o fs.o $(OBJS)
 
 clean:
-	rm -f core *.o *.a tmp_make
-	for i in *.c;do rm -f `basename $$i .c`.s;done
+	rm -f *.o *.a
 
-dep:
-	sed '/\#\#\# Dependencies/q' < Makefile > tmp_make
-	(for i in *.c;do $(CPP) -M $$i;done) >> tmp_make
-	cp tmp_make Makefile
-
-### Dependencies:
 bitmap.o : bitmap.c ../include/string.h ../include/linux/sched.h \
   ../include/linux/head.h ../include/linux/fs.h ../include/sys/types.h \
   ../include/linux/mm.h ../include/linux/kernel.h 
