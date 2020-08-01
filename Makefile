@@ -45,7 +45,7 @@ tools/system:	boot/head.o init/main.o \
 	$(LD) $(LDFLAGS) boot/head.o init/main.o \
 	$(ARCHIVES) \
 	$(LIBS) \
-	-o tools/system > System.map
+	-Ttext 0 -e startup_32 -o tools/system > System.map
 
 kernel/kernel.o:
 	(cd kernel; make)
