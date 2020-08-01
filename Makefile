@@ -5,6 +5,8 @@
 #
 
 TOOLPREFIX =
+CPUARCH = i386
+CPUTUNE = i386
 
 # toolchain
 AS86 = as86 -0
@@ -17,7 +19,8 @@ AR = $(TOOLPREFIX)ar
 # cc flags
 OPTWARN = -Wall
 OPTCTRL = -O -fstrength-reduce -fomit-frame-pointer -std=gnu89
-CFLAGS = $(OPTWARN) $(OPTCTRL)
+OPTARCH = -march=$(CPUARCH) -mtune=$(CPUTUNE) -m32
+CFLAGS = $(OPTWARN) $(OPTCTRL) $(OPTARCH)
 
 # ld flags
 LDFLAGS = -s -x
