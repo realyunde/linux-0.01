@@ -12,7 +12,7 @@ LD	=ld
 LDFLAGS	=-s -x
 CC	=gcc
 CFLAGS	=-Wall -O -fstrength-reduce -fomit-frame-pointer \
-	-finline-functions -nostdinc -I../include
+	-finline-functions -nostdinc -I../include -std=gnu89
 CPP	=gcc -E -nostdinc -I../include
 
 .c.s:

@@ -12,7 +12,7 @@ AS	=as
 LD	=ld
 LDFLAGS	=-s -x -M
 CC	=gcc
-CFLAGS	=-Wall -O -fstrength-reduce -fomit-frame-pointer
+CFLAGS	=-Wall -O -fstrength-reduce -fomit-frame-pointer -std=gnu89
 CPP	=gcc -E -nostdinc -Iinclude
 
 ARCHIVES=kernel/kernel.o mm/mm.o fs/fs.o
