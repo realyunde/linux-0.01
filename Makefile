@@ -4,14 +4,21 @@
 # remove them from the CFLAGS defines.
 #
 
+#
+# toolchain
+#
+TOOLPREFIX =
 AS86	=as86 -0
-#CC86	=cc -0
 LD86	=ld86 -0
 
-AS	=as
-LD	=ld
+CC	=$(TOOLPREFIX)gcc
+AS	=$(TOOLPREFIX)as
+LD	=$(TOOLPREFIX)ld
+
+#
+# flags
+#
 LDFLAGS	=-s -x -M
-CC	=gcc
 CFLAGS	=-Wall -O -fstrength-reduce -fomit-frame-pointer -std=gnu89
 CPP	=gcc -E -nostdinc -Iinclude
 
@@ -25,15 +32,7 @@ LIBS	=lib/lib.a
 .c.o:
 	$(CC) $(CFLAGS) -nostdinc -Iinclude -c -o $*.o $<
 
-all:	Image
-
-Image: boot/boot tools/system tools/build
-	# tools/build boot/boot tools/system > Image
-	touch Image
-	sync
-
-tools/build: tools/build.c
-	$(CC) $(CFLAGS) -o tools/build tools/build.c
+all: boot/boot tools/system
 
 boot/head.o: boot/head.s
 
