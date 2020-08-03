@@ -38,17 +38,16 @@
 ; %define sectors 9
 
 %define SYSSIZE ((117249 + 15) / 16)
-%define BOOTSEG 0x07C0
 %define INITSEG 0x9000
-%define SYSSEG  0x1000
-%define ENDSEG  SYSSEG + SYSSIZE
+%define KERNSEG 0x1000
+%define ENDSEG  KERNSEG + SYSSIZE
 
         cpu     386
         section .text
         bits    16
         global  start16
 start16:
-        mov     ax, BOOTSEG
+        mov     ax, 0x07C0
         mov     ds, ax
         mov     ax, INITSEG
         mov     es, ax
@@ -75,7 +74,7 @@ proceed:
         mov     ax, 0x1301
         int     0x10
 
-        mov     ax, SYSSEG
+        mov     ax, KERNSEG
         mov     es, ax
         call    read_it
         call    kill_motor
@@ -177,8 +176,7 @@ ok2_read:
         call    read_track
         mov     cx,ax
         add     ax,[sread]
-        ; cmp     ax,sectors
-        db      0x3d, 0x12, 0x00
+        cmp     ax,sectors
         jne     ok3_read
         mov     ax, 1
         sub     ax, [head]
