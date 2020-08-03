@@ -45,6 +45,7 @@
         cpu     386
         section .text
         bits    16
+
         global  start16
 start16:
         mov     ax, 0x07C0
@@ -64,11 +65,11 @@ proceed:
         mov     ss, ax
         mov     sp, 0x0400
 
+        ; print message
         mov     ah, 0x03
         xor     bh, bh
         int     0x10
-
-        mov     cx, 24
+        mov     cx, 22
         mov     bx, 0x0007
         mov     bp, message
         mov     ax, 0x1301
@@ -78,11 +79,6 @@ proceed:
         mov     es, ax
         call    read_it
         call    kill_motor
-
-        mov     ah, 0x03
-        xor     bh, bh
-        int     0x10
-        mov     [510], dx
 
         ; move kernel
         cli
@@ -266,8 +262,7 @@ gdt_48:
 
 message:
         db      0x0D, 0x0A
-        db      "Loading system ..."
-        db      0x0D, 0x0A
+        db      "Loading kernel ..."
         db      0x0D, 0x0A
 
         times   510-($-$$) nop
