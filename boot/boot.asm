@@ -143,10 +143,11 @@ end_move:
         dw      0x00eb,0x00eb
         out     0xA1,al
 
-        mov     ax, 0x0001
-        lmsw    ax
+        ; switch from real to protected mode
+        mov     eax, cr0
+        or      eax, 0x00000001
+        mov     cr0, eax
         jmp     0x0008:0x0000
-
 
 
 empty_8042:
@@ -281,4 +282,5 @@ message:
         db      0x0D, 0x0A
         db      0x0D, 0x0A
 
-        db      0x00, 0x00, 0x00
+        times   510-($-$$) nop
+        db      0x55, 0xAA
