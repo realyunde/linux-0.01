@@ -38,7 +38,7 @@
 ; %define sectors 9
 
 %define SYSSIZE ((117249 + 15) / 16)
-%define INITSEG 0x9000
+%define INITSEG 0x7FB0
 %define KERNSEG 0x1000
 %define ENDSEG  KERNSEG + SYSSIZE
 
