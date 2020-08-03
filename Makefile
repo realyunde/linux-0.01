@@ -9,8 +9,7 @@ CPUARCH = i386
 CPUTUNE = i386
 
 # toolchain
-AS86 = as86 -0
-LD86 = ld86 -0
+NASM = nasm
 CC = $(TOOLPREFIX)gcc
 AS = $(TOOLPREFIX)as
 LD = $(TOOLPREFIX)ld
@@ -57,13 +56,8 @@ fs/fs.o:
 lib/lib.a:
 	$(MAKE) -C lib
 
-boot/boot:	boot/boot.s tools/system
-	(echo -n "SYSSIZE = (";ls -l tools/system | grep system \
-		| cut -c25-31 | tr '\012' ' '; echo "+ 15 ) / 16") > tmp.s
-	cat boot/boot.s >> tmp.s
-	$(AS86) -o boot/boot.o tmp.s
-	rm -f tmp.s
-	$(LD86) -s -o boot/boot boot/boot.o
+boot/boot: boot/boot.asm
+	$(NASM) -f bin -o $@ $<
 
 clean:
 	rm -f boot/boot
