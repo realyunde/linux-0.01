@@ -258,7 +258,7 @@ idt_48:
 
 gdt_48:
         dw      0x800           ; gdt limit=2048, 256 GDT entries
-        dw      gdt, 0x9        ; gdt base = 0X9xxxx
+        dw      ((INITSEG << 4) + gdt)
 
 message:
         db      0x0D, 0x0A
