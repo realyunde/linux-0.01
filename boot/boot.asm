@@ -232,7 +232,7 @@ kill_motor:
         pop     dx
         ret
 
-
+        align   4
 gdt:
         dw      0x0000, 0x0000
         dw      0x0000, 0x0000
@@ -253,12 +253,12 @@ gdt:
 
 
 idt_48:
-        dw      0       ; idt limit=0
-        dw      0, 0    ; idt base=0L
+        dw      0x0000
+        dd      0x00000000
 
 gdt_48:
-        dw      0x800           ; gdt limit=2048, 256 GDT entries
-        dw      ((INITSEG << 4) + gdt)
+        dw      0x0800
+        dd      ((INITSEG << 4) + gdt)
 
 message:
         db      0x0D, 0x0A
