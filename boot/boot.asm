@@ -65,16 +65,7 @@ proceed:
         mov     ss, ax
         mov     sp, 0x0400
 
-        ; print message
-        mov     ah, 0x03
-        xor     bh, bh
-        int     0x10
-        mov     cx, 22
-        mov     bx, 0x0007
-        mov     bp, message
-        mov     ax, 0x1301
-        int     0x10
-
+        ; load kernel
         mov     ax, KERNSEG
         mov     es, ax
         call    read_it
@@ -100,7 +91,7 @@ end_move:
         mov     ds, ax
 
         lidt    [idt_48]
-        lgdt    [gdt_48]
+        lgdt    [gdtdesc]
 
         ; enable A20
         call    empty_8042
@@ -256,14 +247,9 @@ idt_48:
         dw      0x0000
         dd      0x00000000
 
-gdt_48:
+gdtdesc:
         dw      0x0800
         dd      ((INITSEG << 4) + gdt)
-
-message:
-        db      0x0D, 0x0A
-        db      "Loading kernel ..."
-        db      0x0D, 0x0A
 
         times   510-($-$$) nop
         db      0x55, 0xAA
