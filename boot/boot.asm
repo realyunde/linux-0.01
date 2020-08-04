@@ -78,7 +78,7 @@ proceed:
 do_move:
         mov     es, ax
         add     ax, 0x1000
-        cmp     ax, 0x9000
+        cmp     ax, 0x8000
         jz      end_move
         mov     ds, ax
         sub     di, di
