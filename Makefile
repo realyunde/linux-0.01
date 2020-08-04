@@ -33,16 +33,13 @@ LIBS	=lib/lib.a
 .c.o:
 	$(CC) $(CFLAGS) -nostdinc -Iinclude -c -o $*.o $<
 
-all: boot/boot tools/system
+all: boot/boot linux
 
 boot/head.o: boot/head.s
 	$(CC) $(CFLAGS) -c -o $@ $<
 
-tools/system:	boot/head.o init/main.o $(ARCHIVES) $(LIBS)
-	$(LD) $(LDFLAGS) boot/head.o init/main.o \
-	$(ARCHIVES) \
-	$(LIBS) \
-	-Ttext 0 -e startup_32 -o tools/system
+linux: boot/head.o init/main.o $(ARCHIVES) $(LIBS)
+	$(LD) $(LDFLAGS) $^ -Ttext 0 -e startup_32 -o $@
 
 kernel/kernel.o:
 	$(MAKE) -C kernel
@@ -60,11 +57,11 @@ boot/boot: boot/boot.asm
 	$(NASM) -f bin -o $@ $<
 
 clean:
-	rm -f boot/boot
-	rm -f init/*.o boot/*.o tools/system
-	(cd mm;make clean)
-	(cd fs;make clean)
-	(cd kernel;make clean)
-	(cd lib;make clean)
+	rm -f boot/boot linux
+	rm -f init/*.o boot/*.o
+	$(MAKE) -C mm clean
+	$(MAKE) -C fs clean
+	$(MAKE) -C kernel clean
+	$(MAKE) -C lib clean
 
-init/main.o : init/main.c
+.PHONY: clean

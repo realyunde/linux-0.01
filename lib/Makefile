@@ -8,10 +8,6 @@
 
 CFLAGS += -finline-functions -nostdinc -I../include
 
-.c.s:
-	$(CC) $(CFLAGS) -S -o $*.s $<
-.s.o:
-	$(AS) -c -o $*.o $<
 .c.o:
 	$(CC) $(CFLAGS) -c -o $*.o $<
 
